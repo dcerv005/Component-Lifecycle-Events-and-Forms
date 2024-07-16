@@ -1,13 +1,14 @@
-
+import CharacterDetails from './CharacterDetail';
 import axios from "axios";
 import {useState, useEffect} from 'react';
 
 
-const CharacterList = (props) => {
+const CharacterList = () => {
     const [characters, setCharacters] = useState([])
+    const [selectedId, setSelectedId] = useState(null);
 
     useEffect(() => {
-        const ts= new Date().getTime()
+        //const ts= new Date().getTime()
         
         const fetchCharacters = async () => {
             try {
@@ -23,7 +24,7 @@ const CharacterList = (props) => {
     }, []);
     
     const selectCharacter = (id) => {
-        props.onCustomerSelect(id);
+        setSelectedId(id);
         
     }
 
@@ -37,6 +38,7 @@ const CharacterList = (props) => {
                         {character.name}
                         <br />
                         <img onClick={() => selectCharacter(character.id)} src={`${character.thumbnail.path}.${character.thumbnail.extension}`} alt={character.name} width="200"/>
+                        {selectedId && character.id === selectedId && <CharacterDetails characterId={selectedId} />}
                     </li>
                 ))}
             </ul>
